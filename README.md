@@ -16,7 +16,8 @@ Here that same text has a stable address.
 
 | Version | Days it governs in this archive | SHA-256 of the text | Note |
 |---|---|---|---|
-| 8.1 | from 2026-09-24 — **in force** | `cadde599461990a44d1bf0ca9f90596d4831a4c6c424c268e01c5abab748e053` | sealed |
+| 8.2 | from 2026-09-26 — **in force** | `8b698d741341749b607f5a74f2abbc5260726f450322f544c29a23113dba4c13` | sealed |
+| 8.1 | 2026-09-24 to 2026-09-25 | `cadde599461990a44d1bf0ca9f90596d4831a4c6c424c268e01c5abab748e053` | sealed |
 | 8 | 2026-09-23 | `be976b0980797bee929fe20a03ac3d386aa2df7338994575d3315ae7f2a30e75` | sealed |
 | 7 | 2026-09-15 to 2026-09-22 | `ec6949509a0b065a932be973af89cf5bcf44d39406eb67163dd119859297408a` | sealed |
 | 6 | 2026-09-08 to 2026-09-14 | `b8a40c163d429b0ff6907faa98536086e413a5a5ad8cf85f58d0e1fe9bd48429` | sealed |
