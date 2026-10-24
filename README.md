@@ -16,7 +16,8 @@ Here that same text has a stable address.
 
 | Version | Days it governs in this archive | SHA-256 of the text | Note |
 |---|---|---|---|
-| 11 | from 2026-10-19 — **in force** | `7de5a1569e2e4fa9bdd1c9bee931ce19ce78b57689f5f43259b59928333d8983` | sealed |
+| 11.1 | from 2026-10-22 — **in force** | `0b258674d953b7b08e182e219d8b4b3c5d196fc15ec3e80958c455a3b02929da` | sealed |
+| 11 | 2026-10-19 to 2026-10-21 | `7de5a1569e2e4fa9bdd1c9bee931ce19ce78b57689f5f43259b59928333d8983` | sealed |
 | 10 | 2026-10-17 to 2026-10-18 | `867b3d91cd6a560ff86cb2ec7779cbdbcbc1249febde109436d31e45c327fbd2` | sealed |
 | 9 | 2026-10-09 to 2026-10-16 | `d41f514e03498eab0baebfa21f871eeddac276a9369631e8d923a8fd8de5565f` | sealed |
 | 8.4 | 2026-10-03 to 2026-10-08 | `8ac3762f3ebbfda676c7064d51a07f01286bd52d02a395c6c541d99fc48249cc` | sealed |
@@ -28,9 +29,9 @@ Here that same text has a stable address.
 | 6 | 2026-09-08 to 2026-09-14 | `b8a40c163d429b0ff6907faa98536086e413a5a5ad8cf85f58d0e1fe9bd48429` | sealed |
 | 5 | 2026-09-07 | `13749d938b277899380ba095ab2f08affb023b205eae26c88dab794d410ab1bd` | sealed |
 | 4 | 2026-09-02 to 2026-09-06 | `99d2a9474132f3e53ff22d62d6224303502c0c83af1dbd0b5b966323fc961cfd` | sealed |
-| 3 | none | `2f0a6d158ce2569d6ac08432b35e73c1048371caf631ea258f5eb025c9fbb175` | not sealed in this archive; it governed a rehearsal archive, discarded, from 2026-08-31 to 2026-09-02 |
-| 2 | none | `95d321def9e45fd8e0b337ca082638cae41b0a050d06aa136462bad420f016b5` | not sealed; it never governed an observed day |
-| 1 | none | `216420cddcbfa76a54f32faece756ad70fe7965801d1a5fa889262f129b4e335` | not sealed; it never governed an observed day |
+| 3 | none | `2f0a6d158ce2569d6ac08432b35e73c1048371caf631ea258f5eb025c9fbb175` | not sealed in this archive; it governed a rehearsal archive, discarded, from 2026-08-31 to 2026-09-02; no inclusion proof: it governed no sealed day of this archive |
+| 2 | none | `95d321def9e45fd8e0b337ca082638cae41b0a050d06aa136462bad420f016b5` | not sealed; it never governed an observed day; no inclusion proof: it governed no sealed day of this archive |
+| 1 | none | `216420cddcbfa76a54f32faece756ad70fe7965801d1a5fa889262f129b4e335` | not sealed; it never governed an observed day; no inclusion proof: it governed no sealed day of this archive |
 
 Versions 1 to 3 are published so that this archive does not hide its own history: the
 method's version table cites them, and a reader who sees that the first sealed one is
@@ -64,3 +65,23 @@ del 2026-08-31 al 2026-09-02; la 1 y la 2 no rigieron nunca un día observado.
 
 - El testigo diario, con la cabecera y el resumen de cada día: https://github.com/strataobservatory/strata-registro
 - Quiénes somos y cómo contactar: https://github.com/strataobservatory
+
+## How to check a version against strata-registro
+
+Next to each sealed version, `METODO_vN.prueba.json` is the inclusion proof of its text in the
+first day it governed. It proves that this text is the one sealed in that day, against the day's
+public summary, without needing the whole day. In three steps:
+
+1. **Its fingerprint.** Compute the SHA-256 of `METODO_vN.md` as published here. It must be the
+   hash in the table above, and the `hash_texto` of the `entrada` inside the proof, whose `texto`
+   is the same text. Check the published file: a copy checked out with git on Windows may carry
+   CRLF line ends and not match.
+2. **Its path.** Take that day's line from `registro_publico.jsonl` in
+   [strataobservatory/strata-registro](https://github.com/strataobservatory/strata-registro), walk
+   the proof's `camino` from the leaf of its `entrada` up to the root, and compare it with that
+   line's `raiz_lote`. The independent verifier does it:
+   `python verificador/verificar.py inclusion --prueba METODO_vN.prueba.json --registro registro_publico.jsonl`.
+3. **Its anchor.** Check that day's `resumen_dia` against its anchors, as the verification
+   procedure published in strata-registro explains.
+
+Versions 1 to 3 have no proof: they governed no sealed day of this archive.
